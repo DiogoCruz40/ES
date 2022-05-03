@@ -16,3 +16,8 @@ This is the ES project
 $ `cd frontend && npm run start`
 
 - Access localhost:3000 for react app live reload
+
+
+### References:
+
+https://www.youtube.com/watch?v=w8SQ8beafiQ&ab_channel=CodeKeen
