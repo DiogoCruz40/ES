@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['app-env.eba-zkfix7tp.us-east-1.elasticbeanstalk.com','localhost']
 
+
+
 # Application definition
 
 INSTALLED_APPS = [
