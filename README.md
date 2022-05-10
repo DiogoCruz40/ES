@@ -3,12 +3,16 @@ This is the ES project
 
 ### Run Server:
 
-1. First about react:
+1. About react:
  
-$ `cd frontend && npm run build`
+$ `cd frontend && npm install && npm run build`
 
-2. Second run server django:
- 
+2. Run server django:
+
+$ `python3 -m venv env`
+
+$ `source env/bin/activate`
+
 $ `cd .. && python3 manage.py runserver`
 
 - Then access localhost:8000 for react app
@@ -16,7 +20,7 @@ $ `cd .. && python3 manage.py runserver`
 
 ### For frontend testing:
 
-$ `cd frontend && npm run start`
+$ `cd frontend && npm install && npm run start`
 
 - Access localhost:3000 for react app live reload
 
