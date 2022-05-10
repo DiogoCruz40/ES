@@ -11,7 +11,7 @@ $ `cd frontend && npm install && npm run build`
 
 $ `python3 -m venv env`
 
-$ `source env/bin/activate`
+$ `source .env/bin/activate`
 
 $ `cd .. && python3 manage.py runserver`
 
