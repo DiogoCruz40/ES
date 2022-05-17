@@ -13,7 +13,7 @@ function App() {
 }
 // class SumIn extends React.Component {
 // 	constructor(props) {
-// 		super(props)
+// 		super(props)x
 // 		this.state = {
 // 			value1: "",
 // 			value2: "",

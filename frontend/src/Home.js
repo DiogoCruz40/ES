@@ -21,6 +21,21 @@ const Home = () => {
     const newItems = itemordered.filter(item => item.id !== fooditem.id);
     setItemordered(newItems);
   }
+
+  const handlesubmit = (inputnumber,setInputNumber,itemsalreadyadded,setIsInvalid) => {
+    if(inputnumber !== "")
+    {
+      setItemordered([]);
+      setInputNumber("");
+      setIsInvalid(false);
+      // faço um post aqui
+    }
+    else
+    {
+      setIsInvalid(true);
+    }
+
+  }
   useEffect(() => {
     fetch("http://localhost:8000/items")
       .then((res) => {
@@ -35,7 +50,7 @@ const Home = () => {
     <div className="Home">
       {items && <FoodList fooditems={items} addtolist={addtolist} />}
       <hr></hr>
-      <UserFoodList itemsalreadyadded={itemordered} removefromlist={removefromlist} />
+      <UserFoodList itemsalreadyadded={itemordered} removefromlist={removefromlist} handlesubmit={handlesubmit} />
     </div>
   );
 };
