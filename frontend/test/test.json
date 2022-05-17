@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "title": "Soap",
+      "description": "Uma sopa de massa."
+    },
+    {
+      "id": 2,
+      "title": "Big mac",
+      "description": "Hamburguer dos gordos."
+    }
+  ]
+}
