@@ -35,11 +35,14 @@ $ `cd frontend && npm install && npm run start`
 ### Implement React:
 
 - Fetch list of items -> for testing use simulated objects
-- Have 2 routes one for user and other for kitchen(with auth)
-
+- Have 2 routes one for user and other for kitchen(with authjwt)
+- 
 For testing purposes we will use a json server:
 $ `npx json-server --watch test/test.db --port 8000`
 
 ### References:
 
 https://www.youtube.com/watch?v=w8SQ8beafiQ&ab_channel=CodeKeen
+https://www.youtube.com/watch?v=zCIpWFYDJ8s&list=PL9nWRykSBSFgQrO66TmO1vHFP6yuPF5G-&ab_channel=BeABetterDev
+https://www.youtube.com/playlist?list=PL4cUxeGkcC9gZD-Tvwfod2gaISzfRiP9d
+https://medium.com/@dakota.lillie/django-react-jwt-authentication-5015ee00ef9a

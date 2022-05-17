@@ -3,12 +3,14 @@
     {
       "id": 1,
       "title": "Soap",
-      "description": "Uma sopa de massa."
+      "description": "Uma sopa de massa.",
+      "price":3.59
     },
     {
       "id": 2,
       "title": "Big mac",
-      "description": "Hamburguer dos gordos."
+      "description": "Hamburguer dos gordos.",
+      "price":6.00
     }
   ]
 }
