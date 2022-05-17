@@ -13,8 +13,12 @@ const UserFoodList = ({ itemsalreadyadded,removefromlist }) => {
             <button onClick={() => removefromlist(fooditem)}>Remover da lista</button>
           </div>
          
-        ))}
+        ))
+        }
          </div>
+         {itemsalreadyadded.length > 0 && <button className='btnsubmit'>Submit</button> }
+         
+
       </div>
     );
   }
