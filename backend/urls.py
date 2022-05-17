@@ -5,4 +5,5 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('red/<int:id>/<str:ola>', views.red, name='red'),
+    path('sum/<int:sum1>/<int:sum2>', views.sum, name='sum'),
 ]
