@@ -49,7 +49,7 @@ class SumIn extends React.Component {
 		this.setState({sum:res['result']})
 	}
 	
-
+}
 // function App() {
 
 //   const [items, setItems] = useState(null)
