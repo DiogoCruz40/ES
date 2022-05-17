@@ -24,6 +24,21 @@ $ `cd frontend && npm install && npm run start`
 
 - Access localhost:3000 for react app live reload
 
+### Implement AWS:
+- Dynamodb -> ids das caras 
+- RDS postgres -> utilizadores
+- lambda functions -> function handler de objetos e serviços
+- step functions -> control flow mediante a execução
+
+### Implement django:
+
+### Implement React:
+
+- Fetch list of items -> for testing use simulated objects
+- Have 2 routes one for user and other for kitchen(with auth)
+
+For testing purposes we will use a json server:
+$ `npx json-server --watch test/test.db --port 8000`
 
 ### References:
 
