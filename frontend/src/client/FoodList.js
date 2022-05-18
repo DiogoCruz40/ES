@@ -1,4 +1,3 @@
-import '../App.css'
 
 const FoodList = ({ fooditems,addtolist }) => {
     return (

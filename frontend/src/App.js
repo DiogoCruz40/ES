@@ -1,8 +1,11 @@
 import React from "react";
-import "./App.css";
+import './App.scss';
 import Home from "./client/Home";
 import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Kitchen from "./kitchen/Kitchen";
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Login from "./kitchen/Login";
 
 function App() {
   return (
@@ -11,6 +14,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home />}  />
           <Route path="/kitchen" element={<Kitchen />}  />
+          <Route path="/Login" element={<Login />}  />
         </Routes>
       </div>
     </Router>

@@ -72,7 +72,7 @@ const Home = () => {
   return (
     <div className="Home">
       <h1>Menu</h1>
-      {error && <div>{error}</div>}
+      {error && <div style={{color:"red",fontSize:"1.4rem",fontWeight:"bold"}}>{error}</div>}
       {items && <FoodList fooditems={items} addtolist={addtolist} />}
       <hr></hr>
       <UserFoodList

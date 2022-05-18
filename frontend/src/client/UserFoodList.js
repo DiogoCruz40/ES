@@ -1,4 +1,3 @@
-import "../App.css";
 import { useState } from "react";
 import Webcam from "react-webcam";
 
@@ -79,12 +78,12 @@ const UserFoodList = ({
                   setIsInvalid
                 )
               }
-              className="btnsubmit"
+              className="btnsubmit btn-primary"
             >
               Submit
             </button>
             {IsInvalid && (
-              <p style={{ color: "red" }}>
+              <p className="mt-2 fw-bold" style={{ color: "red" }}>
                 Did you forget to input the number of the location tag or
                 capture the image?
               </p>

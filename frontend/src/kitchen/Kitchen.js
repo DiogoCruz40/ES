@@ -1,5 +1,20 @@
+import { useState,useEffect } from "react";
+import useGetcurrentuser from "../hooks/useGetcurrentuser";
+import { authlogout } from "../services/AuthService";
+
 const Kitchen = () => {
-    return  <h1>kitchen staff</h1>;
+  //const { currenUser } = useGetcurrentuser();
+ 
+  const logOut = () => {
+    authlogout();
+    //useGetcurrentuser();
+  }
+
+    return (
+    <h1>Kitchen staff</h1>
+    );
 }
  
 export default Kitchen;
+
+
