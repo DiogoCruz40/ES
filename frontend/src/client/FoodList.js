@@ -3,7 +3,6 @@ import '../App.css'
 const FoodList = ({ fooditems,addtolist }) => {
     return (
       <div className="food">
-        <h1>Lista</h1>
         <div className='food-list'>
         {fooditems.map(fooditem => (
           <div className="food-preview" key={fooditem.id} >

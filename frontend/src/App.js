@@ -1,15 +1,20 @@
-import React  from 'react';
-import './App.css';
-import Home from './client/Home';
-// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React from "react";
+import "./App.css";
+import Home from "./client/Home";
+import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import Kitchen from "./kitchen/Kitchen";
 
 function App() {
-
   return (
-    <div className="App">
-     <Home></Home>
-    </div>
-  ); 
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route exact path="/" element={<Home />}  />
+          <Route path="/kitchen" element={<Kitchen />}  />
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 // class SumIn extends React.Component {
 // 	constructor(props) {
@@ -55,7 +60,7 @@ function App() {
 // 		console.log(res['result']);xampp
 // 		this.setState({sum:res['result']})
 // 	}
-	
+
 // }
 
 // export default SumIn;

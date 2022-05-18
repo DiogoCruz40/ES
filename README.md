@@ -35,8 +35,10 @@ $ `cd frontend && npm install && npm run start`
 ### Implement React:
 
 - Fetch list of items -> for testing use simulated objects
-- Have 2 routes one for user and other for kitchen(with authjwt)
-- 
+- Have 2 routes one for user "/" and other for kitchen(with authjwt) "/kitchen"
+- installed react-router-dom and react-webcam
+
+
 For testing purposes we will use a json server:
 $ `npx json-server --watch test/test.db --port 8000`
 

@@ -61,6 +61,7 @@ const Home = () => {
 
   return (
     <div className="Home">
+      <h1>Menu</h1>
       { error && <div>{ error }</div> }
       {items && <FoodList fooditems={items} addtolist={addtolist} />}
       <hr></hr>
