@@ -1,11 +1,13 @@
-import { useEffect, useState,useRef,useCallback } from "react";
+import { useState,useRef,useCallback } from "react";
 import FoodList from "./FoodList";
+import useFetch from "../hooks/useFetch";
 import UserFoodList from "./UserFoodList";
 
 const Home = () => {
-  const [items, setItems] = useState(null);
   const [itemordered, setItemordered] = useState([]);
   const [image,setImage]=useState('');
+  const { data:items, error} = useFetch("http://localhost:8000/items");
+
 
   const addtolist = (fooditem) => {
     let existe = false;
@@ -55,18 +57,11 @@ const Home = () => {
       [webcamRef]
     );
 
-  useEffect(() => {
-    fetch("http://localhost:8000/items")
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setItems(data);
-      });
-  }, []);
+
 
   return (
     <div className="Home">
+      { error && <div>{ error }</div> }
       {items && <FoodList fooditems={items} addtolist={addtolist} />}
       <hr></hr>
       <UserFoodList itemsalreadyadded={itemordered} removefromlist={removefromlist} handlesubmit={handlesubmit} webcamRef={webcamRef} capture={capture} videoConstraints={videoConstraints} image={image} />

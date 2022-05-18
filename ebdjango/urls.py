@@ -23,5 +23,5 @@ import backend
 urlpatterns = [
     path('', index),
     path('api/',include('backend.urls')),
-    path('admin/', admin.site.urls)
+    # path('admin/', admin.site.urls)
 ]

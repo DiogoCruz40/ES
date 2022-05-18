@@ -1,4 +1,4 @@
-import "./App.css";
+import "../App.css";
 import { useState } from "react";
 import Webcam from "react-webcam";
 
@@ -37,7 +37,7 @@ const UserFoodList = ({
         <div>
           <div style={{marginTop:'15px'}}>
             {image ? (
-              <img src={image} />
+              <img src={image}  alt="User_capture_img"/>
             ) : (
               <div>
                 <Webcam
