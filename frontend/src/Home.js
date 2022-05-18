@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef,useCallback } from "react";
 import FoodList from "./FoodList";
 import UserFoodList from "./UserFoodList";
 
 const Home = () => {
   const [items, setItems] = useState(null);
   const [itemordered, setItemordered] = useState([]);
+  const [image,setImage]=useState('');
 
   const addtolist = (fooditem) => {
     let existe = false;
@@ -23,12 +24,13 @@ const Home = () => {
   }
 
   const handlesubmit = (inputnumber,setInputNumber,itemsalreadyadded,setIsInvalid) => {
-    if(inputnumber !== "")
+    if(inputnumber !== "" && image)
     {
       setItemordered([]);
       setInputNumber("");
       setIsInvalid(false);
-      // faço um post aqui
+      setImage("");
+      // faço um post aqui da image, dos items e do numero de location tag
     }
     else
     {
@@ -36,6 +38,23 @@ const Home = () => {
     }
 
   }
+
+  const videoConstraints = {
+    width: 220,
+    height: 200,
+    facingMode: "user"
+  };
+
+  const webcamRef = useRef(null);
+  
+    const capture = useCallback(
+      () => {
+        const imageSrc = webcamRef.current.getScreenshot();
+        setImage(imageSrc);
+      },
+      [webcamRef]
+    );
+
   useEffect(() => {
     fetch("http://localhost:8000/items")
       .then((res) => {
@@ -50,7 +69,7 @@ const Home = () => {
     <div className="Home">
       {items && <FoodList fooditems={items} addtolist={addtolist} />}
       <hr></hr>
-      <UserFoodList itemsalreadyadded={itemordered} removefromlist={removefromlist} handlesubmit={handlesubmit} />
+      <UserFoodList itemsalreadyadded={itemordered} removefromlist={removefromlist} handlesubmit={handlesubmit} webcamRef={webcamRef} capture={capture} videoConstraints={videoConstraints} image={image} />
     </div>
   );
 };

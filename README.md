@@ -46,3 +46,4 @@ https://www.youtube.com/watch?v=w8SQ8beafiQ&ab_channel=CodeKeen
 https://www.youtube.com/watch?v=zCIpWFYDJ8s&list=PL9nWRykSBSFgQrO66TmO1vHFP6yuPF5G-&ab_channel=BeABetterDev
 https://www.youtube.com/playlist?list=PL4cUxeGkcC9gZD-Tvwfod2gaISzfRiP9d
 https://medium.com/@dakota.lillie/django-react-jwt-authentication-5015ee00ef9a
+https://javascript.plainenglish.io/capture-images-via-webcam-using-react-9282bb87de5a
