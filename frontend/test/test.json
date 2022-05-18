@@ -4,13 +4,25 @@
       "id": 1,
       "title": "Soop",
       "description": "Uma sopinha de massa.",
-      "price":3.59
+      "price": 3.59
     },
     {
       "id": 2,
       "title": "Big mac",
       "description": "Hamburguer dos gordos.",
-      "price":6.00
+      "price": 6
+    },
+    {
+      "id": 3
+    },
+    {
+      "id": 4
+    },
+    {
+      "id": 5
+    },
+    {
+      "id": 6
     }
   ]
 }
