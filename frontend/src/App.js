@@ -1,13 +1,14 @@
 import React from "react";
 import './App.scss';
 import Home from "./client/Home";
-import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate} from "react-router-dom";
 import Kitchen from "./kitchen/Kitchen";
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from "./kitchen/Login";
 
 function App() {
+
   return (
     <Router>
       <div className="App">
@@ -15,6 +16,7 @@ function App() {
           <Route exact path="/" element={<Home />}  />
           <Route path="/kitchen" element={<Kitchen />}  />
           <Route path="/Login" element={<Login />}  />
+          <Route path="*" element={<Navigate replace to="/"/>}/>
         </Routes>
       </div>
     </Router>
