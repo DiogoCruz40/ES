@@ -6,7 +6,7 @@ import UserFoodList from "./UserFoodList";
 const Home = () => {
   const [itemordered, setItemordered] = useState([]);
   const [image, setImage] = useState("");
-  const { data: items, error } = useFetch("http://localhost:8000/items");
+  const { data: items, error } = useFetch("http://localhost:8000/api/items/");
   const {errPost,setErrPost} = useState(null);
 
   const addtolist = (fooditem) => {
@@ -33,7 +33,7 @@ const Home = () => {
   ) => {
     if (inputnumber !== "" && image) {
       // faço um post aqui da image, dos items e do numero de location tag
-      fetch("http://localhost:8000/items", {
+      fetch("http://localhost:8000/api/items/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

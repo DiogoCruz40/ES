@@ -3,11 +3,11 @@ import useGetcurrentuser from "../hooks/useGetcurrentuser";
 import { authlogout } from "../services/AuthService";
 
 const Kitchen = () => {
-  //const { currenUser } = useGetcurrentuser();
+  const { currenUser } = useGetcurrentuser();
  
   const logOut = () => {
     authlogout();
-    //useGetcurrentuser();
+    // useGetcurrentuser();
   }
 
     return (

@@ -31,7 +31,7 @@ $ `cd frontend && npm install && npm run start`
 - step functions -> control flow mediante a execução
 
 ### Implement django:
-
+- Cors headers and rest framework and authjwt
 ### Implement React:
 
 - Fetch list of items -> for testing use simulated objects

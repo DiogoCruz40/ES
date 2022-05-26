@@ -1,21 +1,30 @@
 import { useState } from "react";
+import { Navigate } from "react-router-dom";
+import {login_api} from "../services/AuthService";
 
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
-
+    const [success,setSuccess] = useState("");
   const tryLogin = async (e) => {
     e.preventDefault();
     console.log("Loggin in with", username, password);
     if(username.trim() !== "" && password.trim() !== "")
     {
-        //  await login_api(username, password, success, (text)=>{setMessage(text)});
-        setMessage("");
+        await login_api(username, password, (text) => { setSuccess(text)},(text) => { setMessage(text)});
+
+        console.log(success);
+        if (success !== "")
+        {
+         
+          Navigate("/kitchen")
+        }
     }
     else
     {
         setMessage('Preencha todos os campos!');
+        setSuccess("");
     }
   };
 

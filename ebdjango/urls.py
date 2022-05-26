@@ -22,6 +22,6 @@ import backend
 
 urlpatterns = [
     path('api/',include('backend.urls')),
+    path('admin/', admin.site.urls),
     re_path(r'^(?:.*)/?$', index)
-    # path('admin/', admin.site.urls)
 ]
