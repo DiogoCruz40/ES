@@ -2,12 +2,13 @@ import { useState, useRef, useCallback } from "react";
 import FoodList from "./FoodList";
 import useFetch from "../hooks/useFetch";
 import UserFoodList from "./UserFoodList";
+import { getToken } from "../services/AuthService";
 
 const Home = () => {
   const [itemordered, setItemordered] = useState([]);
   const [image, setImage] = useState("");
-  const { data: items, error } = useFetch("http://localhost:8000/api/items/");
-  const {errPost,setErrPost} = useState(null);
+  const { data: items, error } = useFetch("api/items/");
+  const [totalprice, setTotalprice] = useState(0);
 
   const addtolist = (fooditem) => {
     let existe = false;
@@ -17,11 +18,13 @@ const Home = () => {
       }
     });
     if (!existe) {
+      setTotalprice((totalprice + Number(fooditem.price)));
       setItemordered((itemordered) => [...itemordered, fooditem]);
     }
   };
   const removefromlist = (fooditem) => {
     const newItems = itemordered.filter((item) => item.id !== fooditem.id);
+    setTotalprice((totalprice - Number(fooditem.price)));
     setItemordered(newItems);
   };
 
@@ -36,21 +39,27 @@ const Home = () => {
       fetch("http://localhost:8000/api/items/", {
         method: "POST",
         headers: {
+          'Accept': "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(Object),
+        body: JSON.stringify({data:"ola"}),
+      }).then((res) => {
+        if(!res.ok)
+        {
+          throw Error('Could not POST this.')
+        }
+        return res.json();
       }).then((data) => {
-        console.log('post success' + data.status);
+        console.log(data.status);
         setItemordered([]);
         setInputNumber("");
         setIsInvalid(false);
         setImage("");
-        setErrPost(null);
-      }).catch((err) => {
-        setErrPost(err.message);
-      }); 
+        setTotalprice(0.00);
 
-     
+      }).catch((err) => {
+         alert(err.message + ' Try again later.');
+      }); 
     } else {
       setIsInvalid(true);
     }
@@ -83,6 +92,7 @@ const Home = () => {
         capture={capture}
         videoConstraints={videoConstraints}
         image={image}
+        totalprice={totalprice}
       />
     </div>
   );

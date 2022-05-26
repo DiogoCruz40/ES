@@ -1,6 +1,7 @@
-const API_Auth_URL = "http://localhost:8000/api/token/";
+const API_Auth_URL = "api/token/";
 const TOKEN_KEY = "token";
 const USER_KEY = "user";
+
 
 export const authlogout = () => {
    return window.sessionStorage.clear();
@@ -9,7 +10,7 @@ export const authlogout = () => {
 export const getCurrentUser = () => {
   const user = window.sessionStorage.getItem(USER_KEY);
   if (user) {
-    return JSON.parse(user);
+    return user;
   }
   return null;
 };
@@ -24,7 +25,7 @@ export const getToken  = () => {
 
 export const saveUser  = (user) => {
   window.sessionStorage.removeItem(USER_KEY);
-  window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
+  window.sessionStorage.setItem(USER_KEY, user);
 }
 
 export const isLoggedIn  = () => {
@@ -32,10 +33,15 @@ export const isLoggedIn  = () => {
   return (authToken !== null) ? true : false;
 }
 
-export const login_api = async (username, password, success, fail) => {
-  const response = await fetch(
+export const login_api = async (username, password) => {
+  var success = "";
+  var err = "";
+
+  const abortCont = new AbortController();
+  await fetch(
         API_Auth_URL,
         {
+            signal: abortCont.signal,
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -46,16 +52,24 @@ export const login_api = async (username, password, success, fail) => {
               "password": password,
             })
         }
-    );
-    const text = await response.json();
-    if (response.status === 200) {
-      // console.log("success", JSON.parse(text));
-      saveToken("JWT " + text.access);
+    ).then((res) => {
+      if(!res.ok)
+      {
+        throw Error("Invalid Credentials, try again.");
+      }
+     return res.json();
+    }).then((data) => {
+      saveToken("JWT " + data.access);
       saveUser(username);
-    } else {
-      console.log("failed", text);
-      Object.entries(JSON.parse(text)).forEach(([key, value])=>{
-        fail(`${key}: ${value}`);
-      });
-    }
+      success = "done";
+    }).catch((error) => {
+      authlogout();
+      if (error.name === "AbortError") {
+        console.log("fetch aborted");
+        return () => abortCont.abort();
+      } else {
+        err = error.message;
+      }
+    });
+    return {success,err}
   };

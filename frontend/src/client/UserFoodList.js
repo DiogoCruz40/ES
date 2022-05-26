@@ -9,18 +9,19 @@ const UserFoodList = ({
   capture,
   videoConstraints,
   image,
+  totalprice
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [IsInvalid, setIsInvalid] = useState(false);
   const onChangeHandler = (event) => {
     setInputValue(event.target.value);
   };
-
   return (
     <div className="food">
       <h1>Lista do utilizador:</h1>
       <div className="food-list">
         {itemsalreadyadded.map((fooditem) => (
+         
           <div className="food-preview" key={fooditem.id}>
             <h2>{fooditem.title}</h2>
             <p>{fooditem.description}</p>
@@ -34,6 +35,7 @@ const UserFoodList = ({
 
       {itemsalreadyadded.length > 0 && (
         <div>
+          <h1 className="p-3">Preço total: {totalprice}€</h1>
           <div style={{marginTop:'15px'}}>
             {image ? (
               <img src={image}  alt="User_capture_img"/>
@@ -60,7 +62,7 @@ const UserFoodList = ({
             )}
           </div>
           <div>
-            <p>Número da Location tag</p>
+            <p className="pt-2">Número da Location tag</p>
             <input
               min={1}
               type="number"

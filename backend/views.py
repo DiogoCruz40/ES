@@ -8,7 +8,6 @@ from rest_framework.views import APIView
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 
-
 # Create your views here.
 # def index(request):
 #     return HttpResponse("Hello, world. You're at the polls index.")
@@ -23,7 +22,7 @@ from rest_framework.response import Response
 #     return JsonResponse(data={'sum1':sum1,'sum2':sum2,'result':sum1+sum2})
 
 class ItemAPIView(APIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_object(self,username):
         try:
@@ -41,6 +40,23 @@ class ItemAPIView(APIView):
         serializer = ItemSerializer(data=request.data)
 
         if serializer.is_valid():
-            serializer.save()
+            # serializer.save()
             return Response(serializer.data,status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
+# class RequestFoodAPIView(APIView):
+#     # permission_classes = [permissions.IsAuthenticated]
+
+#     # def get(self,request):
+#     #     requestfood = RequestFood.objects.all()
+#     #     serializer = RequestFoodSerializer(requestfood,many=True)
+#     #     return Response(serializer.data)
+
+#     def post(self,request):
+#         serializer = RequestFood(data=request.data)
+
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data,status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
