@@ -54,8 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'backend',
-    'rest_framework',
-    'storages'
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -120,7 +119,6 @@ else:
             'PORT': '5432',
         }
     }   
-    
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
