@@ -13,7 +13,7 @@ $ `python3 -m venv env`
 
 $ `source .env/bin/activate`
 
-$ `cd .. && python3 manage.py runserver`
+$ `cd .. && python manage.py collectstatic && python3 manage.py runserver`
 
 - Then access localhost:8000 for react app
 - Access localhost:8000/api for django app
