@@ -2,3 +2,5 @@
 .env/*
 .env
 *.zip
+node_modules
+static
