@@ -7,12 +7,12 @@ import { getToken } from "../services/AuthService";
 const Home = () => {
   const [itemordered, setItemordered] = useState([]);
   const [image, setImage] = useState("");
-  const { data: items, error } = useFetch("api/items/");
+  const { data: items, error } = useFetch("api/getitems/");
   const [totalprice, setTotalprice] = useState(0);
 
   const addtolist = (fooditem) => {
     let existe = false;
-    itemordered.forEach((item) => {
+    itemordered.map((item) => {
       if (item.id === fooditem.id) {
         existe = true;
       }

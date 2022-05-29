@@ -1,3 +1,4 @@
+import json
 from urllib import response
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -14,30 +15,12 @@ import base64
 # def index(request):
 #     return HttpResponse("Hello, world. You're at the polls index.")
 
-# class ItemAPIView(APIView):
-#     # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-
-#     # def get_object(self,username):
-#     #     try:
-#     #         return Item.objects.get(username=username)
-
-#     #     except Item.DoesNotExist:
-#     #         return HttpResponse(status=status.HTTP_404_NOT_FOUND)
-
-#     def get(self,request):
-#         # item = Item.objects.all()
-#         # serializer = ItemSerializer(item,many=True)
-#         # return Response(serializer.data)
-#         return Response('nothin',status=status.HTTP_400_BAD_REQUEST)
-
-#     def post(self,request):
-#         # serializer = ItemSerializer(data=request.data)
-
-#         # if serializer.is_valid():
-#             # serializer.save()
-#             # return Response(serializer.data,status=status.HTTP_201_CREATED)
-#         # return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-#         return Response('nothin',status=status.HTTP_400_BAD_REQUEST)
+class ItemAPIView(APIView):
+    def get(self,request):
+        lambda_client = boto3.client('lambda',region_name='us-east-1')
+        response = lambda_client.invoke(FunctionName='getitems')
+        return Response(json.loads(response["Payload"].read())["body"],status=status.HTTP_200_OK)
+        # return Response(response,status=status.HTTP_200_OK)
 
 class RequestFoodAPIView(APIView):
     # permission_classes = [permissions.IsAuthenticated]
