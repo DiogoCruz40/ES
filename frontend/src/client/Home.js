@@ -4,6 +4,8 @@ import useFetch from "../hooks/useFetch";
 import UserFoodList from "./UserFoodList";
 import { getToken } from "../services/AuthService";
 
+
+
 const Home = () => {
   const [itemordered, setItemordered] = useState([]);
   const [image, setImage] = useState("");
@@ -18,15 +20,56 @@ const Home = () => {
       }
     });
     if (!existe) {
-      setTotalprice((totalprice + Number(fooditem.price)));
       setItemordered((itemordered) => [...itemordered, fooditem]);
     }
   };
   const removefromlist = (fooditem) => {
     const newItems = itemordered.filter((item) => item.id !== fooditem.id);
-    setTotalprice((totalprice - Number(fooditem.price)));
     setItemordered(newItems);
+    if(!itemordered)
+    {
+      setTotalprice(0);
+    }
   };
+
+  const handlecalcprice = ((postdata) => {
+    
+    const abortCont = new AbortController();
+
+    fetch('api/calcprice/', {
+      method: 'POST',
+      signal: abortCont.signal,
+      headers: {
+        'Authorization': getToken,
+        'Accept': "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({postdata})
+    })
+      .then((res) => {
+        if (!res.ok) {
+          // error coming back from server
+          throw Error("Could not post this data.");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setTotalprice(JSON.parse(data.body));
+        // setError(null);
+      })
+      .catch((err) => {
+        if (err.name === "AbortError") {
+          console.log("fetch aborted");
+        } else {
+          // setError(err.message);
+        }
+      });
+
+    // abort the fetch
+    return () => abortCont.abort();
+
+
+  });
 
   const handlesubmit = (
     inputnumber,
@@ -88,6 +131,7 @@ const Home = () => {
         itemsalreadyadded={itemordered}
         removefromlist={removefromlist}
         handlesubmit={handlesubmit}
+        handlecalcprice={handlecalcprice}
         webcamRef={webcamRef}
         capture={capture}
         videoConstraints={videoConstraints}

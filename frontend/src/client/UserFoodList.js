@@ -4,6 +4,7 @@ import Webcam from "react-webcam";
 const UserFoodList = ({
   itemsalreadyadded,
   removefromlist,
+  handlecalcprice,
   handlesubmit,
   webcamRef,
   capture,
@@ -35,7 +36,10 @@ const UserFoodList = ({
 
       {itemsalreadyadded.length > 0 && (
         <div>
-          <h1 className="p-3">Preço total: {totalprice}€</h1>
+          {totalprice > 0 && <h1 className="p-3">Preço total: {totalprice}€</h1>}
+          <button className="my-2" onClick={() => handlecalcprice(itemsalreadyadded)}>
+              Calcular preço
+            </button>
           <div style={{marginTop:'15px'}}>
             {image ? (
               <img src={image}  alt="User_capture_img"/>

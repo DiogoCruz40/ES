@@ -20,7 +20,16 @@ class ItemAPIView(APIView):
         lambda_client = boto3.client('lambda',region_name='us-east-1')
         response = lambda_client.invoke(FunctionName='getitems')
         return Response(json.loads(response["Payload"].read())["body"],status=status.HTTP_200_OK)
-        # return Response(response,status=status.HTTP_200_OK)
+
+
+class CalculatePriceAPIView(APIView):
+    def post(self,request):
+        lambda_client = boto3.client('lambda',region_name='us-east-1')
+        response = lambda_client.invoke(FunctionName='calcprice',InvocationType='RequestResponse',
+                     Payload=json.dumps(request.data))
+        return Response(json.loads(response["Payload"].read()),status=status.HTTP_200_OK)
+
+
 
 class RequestFoodAPIView(APIView):
     # permission_classes = [permissions.IsAuthenticated]
