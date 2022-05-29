@@ -26,7 +26,7 @@ const Home = () => {
   const removefromlist = (fooditem) => {
     const newItems = itemordered.filter((item) => item.id !== fooditem.id);
     setItemordered(newItems);
-    if(!itemordered)
+    if(itemordered === [])
     {
       setTotalprice(0);
     }
