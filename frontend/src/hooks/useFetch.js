@@ -21,6 +21,11 @@ const useFetch = (url) => {
     })
       .then((res) => {
       if (!res.ok) {
+        if (res.status === 401)
+        {
+          authlogout();
+          navigate("/Login");
+        }
           // error coming back from server
           throw Error("Could not fetch the data for that resource");
         }
@@ -31,12 +36,6 @@ const useFetch = (url) => {
         setError(null);
       })
       .catch((err) => {
-        if (err.status === 401)
-        {
-          authlogout();
-          navigate("/Login");
-        }
-
         if (err.name === "AbortError") {
           console.log("fetch aborted");
         } else {
