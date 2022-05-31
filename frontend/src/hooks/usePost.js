@@ -14,7 +14,7 @@ const usePost = (url,postdata) => {
       method: 'POST',
       signal: abortCont.signal,
       headers: {
-        'Authorization': getToken,
+        'Authorization': getToken(),
         'Accept': "application/json",
         "Content-Type": "application/json",
       },

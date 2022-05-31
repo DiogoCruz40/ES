@@ -40,7 +40,7 @@ const Home = () => {
       method: 'POST',
       signal: abortCont.signal,
       headers: {
-        'Authorization': getToken,
+        'Authorization': getToken(),
         'Accept': "application/json",
         "Content-Type": "application/json",
       },
@@ -77,15 +77,18 @@ const Home = () => {
     itemsalreadyadded,
     setIsInvalid
   ) => {
-    if (inputnumber !== "" && image) {
+    if (inputnumber !== 0 && image) {
+      const abortCont = new AbortController();
       // faço um post aqui da image, dos items e do numero de location tag
-      fetch("http://localhost:8000/api/items/", {
+      fetch("api/requestfood/", {
         method: "POST",
+        signal: abortCont.signal,
         headers: {
+          'Authorization': getToken,
           'Accept': "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({data:"ola"}),
+        body: JSON.stringify({image:image,items:itemsalreadyadded,locationtag:inputnumber,Request:'makerequest'}),
       }).then((res) => {
         if(!res.ok)
         {
@@ -95,7 +98,7 @@ const Home = () => {
       }).then((data) => {
         console.log(data.status);
         setItemordered([]);
-        setInputNumber("");
+        setInputNumber(0.0);
         setIsInvalid(false);
         setImage("");
         setTotalprice(0.00);
@@ -103,9 +106,12 @@ const Home = () => {
       }).catch((err) => {
          alert(err.message + ' Try again later.');
       }); 
+      return () => abortCont.abort();
     } else {
       setIsInvalid(true);
     }
+     // abort the fetch
+    
   };
 
   const videoConstraints = {

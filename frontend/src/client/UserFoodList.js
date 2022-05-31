@@ -12,7 +12,7 @@ const UserFoodList = ({
   image,
   totalprice
 }) => {
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(0);
   const [IsInvalid, setIsInvalid] = useState(false);
   const onChangeHandler = (event) => {
     setInputValue(event.target.value);

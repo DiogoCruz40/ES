@@ -10,7 +10,7 @@ const Login = () => {
 
   const tryLogin = async (e) => {
     e.preventDefault();
-    console.log("Loggin in with", username, password);
+    // console.log("Loggin in with", username, password);
     if (username.trim() !== "" && password.trim() !== "") {
      const {success,err} = await login_api(username, password);
      if(success === "")

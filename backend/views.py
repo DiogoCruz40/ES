@@ -1,4 +1,6 @@
 import json
+from time import sleep
+from unicodedata import name
 from urllib import response
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -10,7 +12,7 @@ from rest_framework.response import Response
 import boto3
 from botocore.vendored import requests
 import base64
-
+import uuid
 # Create your views here.
 # def index(request):
 #     return HttpResponse("Hello, world. You're at the polls index.")
@@ -40,62 +42,51 @@ class RequestFoodAPIView(APIView):
     #     return Response(serializer.data)
 
     def post(self,request):
-        # sfn_client = boto3.client('stepfunctions',region_name='us-east-1')#Switch according to what you want to use
-        #response = sfn_client.start_execution(
-        # stateMachineArn=state_machine_arn,
-        # name='test1',
-        # input=json.dumps({ 'TransactionType': 'PURCHASE' })
-        # )
+
+        sfn_client = boto3.client('stepfunctions',region_name='us-east-1')#Switch according to what you want to use
+        response = sfn_client.start_execution(
+        stateMachineArn='arn:aws:states:us-east-1:517565264163:stateMachine:MyStateMachine',
+        name=uuid.uuid4().hex,
+        input=json.dumps(request.data)
+        ) #start the step function execution CAREFUL, IT's ASYNC, RESPONSE RETURN LINK FOR WHERE THE RESULT WILL BE
+        response_execution_arn = response['executionArn']
+        response = sfn_client.describe_execution(
+        executionArn=str(response_execution_arn)) #get the response
+        
+        while response['status'] == 'RUNNING':
+            sleep(1)
+            response = sfn_client.describe_execution(
+            executionArn=str(response_execution_arn)
+        ) #here i was waiting for it to be executed but you can do a sync step function or do some other thing
 
       # Retrieve the list of existing buckets
-        s3 = boto3.client('s3')
-        dynamodb = boto3.resource('dynamodb')
-        response = s3.list_buckets()
+        # s3 = boto3.client('s3')
+        # dynamodb = boto3.resource('dynamodb')
+        # response = s3.list_buckets()
         
-        table = dynamodb.Table('users')
-        response = table.get_item(
-        Key={
-        'username': 'janedoe',
-        'last_name': 'Doe'
-        }
-        )
-        item = response['Item']
-        print(item)
-        # Output the bucket names
-        print('Existing buckets:')
-        for bucket in response['Buckets']:
-            print(f'  {bucket["Name"]}')
+        # # table = dynamodb.Table('users')
+        # # response = table.get_item(
+        # # Key={
+        # # 'username': 'janedoe',
+        # # 'last_name': 'Doe'
+        # # }
+        # # )
+        # # item = response['Item']
+        # # print(item)
+        # # Output the bucket names
+        # print('Existing buckets:')
+        # for bucket in response['Buckets']:
+        #     print(f'  {bucket["Name"]}')
 
         # if serializer.is_valid():
         #     # serializer.save()
         #     return Response(serializer.data,status=status.HTTP_201_CREATED)
-        return Response(response,status=status.HTTP_400_BAD_REQUEST)
+        return Response(response,status=status.HTTP_200_OK)
 
+class GetFoodAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
 
-class SendPhotoAPIView(APIView):
-
-    def post(self,request):
-
-        s3 = boto3.resource('s3')
-        bucket_name = 'BucketName'
-        #where the file will be uploaded, if you want to upload the file to folder use 'Folder Name/FileName.jpeg'
-        file_name_with_extention = 'FileName.jpeg'
-        url_to_download = 'URL'
-
-        #make sure there is no data:image/jpeg;base64 in the string that returns
-        def get_as_base64(url):
-            return base64.b64encode(requests.get(url).content)
-
-        def lambda_handler(event, context):
-            image_base64 = get_as_base64(url_to_download)
-            obj = s3.Object(bucket_name,file_name_with_extention)
-            obj.put(Body=base64.b64decode(image_base64))
-            
-            #get bucket location
-            location = boto3.client('s3').get_bucket_location(Bucket=bucket_name)['LocationConstraint']
-            #get object url
-            object_url = "https://%s.s3-%s.amazonaws.com/%s" % (bucket_name,location, file_name_with_extention)
-            print(object_url)
-
-        return Response({'message':'Created with success'},status=status.HTTP_201_CREATED)
-# {"ola":"entao"}
+    def get(self,request):
+        lambda_client = boto3.client('lambda',region_name='us-east-1')
+        response = lambda_client.invoke(FunctionName='getrequests')
+        return Response(json.loads(response["Payload"].read())["body"],status=status.HTTP_200_OK)
