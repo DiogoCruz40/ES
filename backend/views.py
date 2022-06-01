@@ -1,4 +1,5 @@
 import json
+from re import T
 from time import sleep
 from unicodedata import name
 from urllib import response
@@ -50,19 +51,25 @@ class RequestFoodAPIView(APIView):
         name=request.data['execname'],
         input=json.dumps(request.data)
         ) #start the step function execution CAREFUL, IT's ASYNC, RESPONSE RETURN LINK FOR WHERE THE RESULT WILL BE
-        # response_execution_arn = response['executionArn']
-        # response = sfn_client.describe_execution(
-        # executionArn=str(response_execution_arn)) #get the response
+        response_execution_arn = response['executionArn']
+        response = sfn_client.describe_execution(
+        executionArn=str(response_execution_arn)) #get the response
 
         # # USAR AQUI STEP FUNCTION ACTIVITY
-
-        # while response['status'] == 'RUNNING':
-        #     sleep(1)
-        #     response = sfn_client.describe_execution(
-        #     executionArn=str(response_execution_arn)
-        # ) #here i was waiting for it to be executed but you can do a sync step function or do some other thing
+        while response['status'] == 'RUNNING':
+            response = sfn_client.describe_execution(
+            executionArn=str(response_execution_arn)
+        ) #here i was waiting for it to be executed but you can do a sync step function or do some other thing
+            # try:
+            #     if(json.loads(response["output"])["facematched"] == True):
+            #         res = False
+            #     elif(json.loads(response["output"])["facematched"] == False):
+            #         res = True
+            # except:
+            #     pass
+            
         return Response(response,status=status.HTTP_200_OK)
-
+    # {"Request":"makerequest"}
 
 # USAR AQUI STEP FUNCTION ACTIVITY
 class UpdateItemsFoodAPIView(APIView):
