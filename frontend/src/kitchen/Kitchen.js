@@ -9,7 +9,6 @@ const Kitchen = () => {
   let {data:items, error} = useFetch('api/getfood/');
   let [objecturl, setObjecturl] = useState([]);
   let [objecturlfeitos, setObjecturlfeitos] = useState([]);
-  let execname;
   const navigate = useNavigate();
   const logOut = () => {
     authlogout();

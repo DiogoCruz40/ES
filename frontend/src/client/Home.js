@@ -40,7 +40,6 @@ const Home = () => {
       method: 'POST',
       signal: abortCont.signal,
       headers: {
-        'Authorization': getToken(),
         'Accept': "application/json",
         "Content-Type": "application/json",
       },
@@ -84,7 +83,6 @@ const Home = () => {
         method: "POST",
         signal: abortCont.signal,
         headers: {
-          'Authorization': getToken,
           'Accept': "application/json",
           "Content-Type": "application/json",
         },
