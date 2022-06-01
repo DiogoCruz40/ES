@@ -9,7 +9,7 @@ urlpatterns = [
     path('requestfood/', RequestFoodAPIView.as_view()),
     path('updateitems/',UpdateItemsFoodAPIView.as_view()),
     path('getfood/', GetFoodAPIView.as_view()),
-    path('getpayments/',GetPaymentAPIView.as_view()),
+    path('getpayment/',GetPaymentAPIView.as_view()),
     path('getdelivery/',GetDeliveryAPIView.as_view()),
     path('checkphoto/',GetCheckPhotoAPIView.as_view()),
     path('token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),

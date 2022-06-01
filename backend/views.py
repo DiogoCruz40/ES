@@ -66,19 +66,19 @@ class RequestFoodAPIView(APIView):
     # {"Request":"makerequest"}
 
 class GetPaymentAPIView(APIView):
-    def get(self,request):
+    def post(self,request):
         lambda_client = boto3.client('lambda',region_name='us-east-1')
         response = lambda_client.invoke(FunctionName='getpayments',Payload=json.dumps(request.data))
         return Response(json.loads(response["Payload"].read()),status=status.HTTP_200_OK)
 
 class GetDeliveryAPIView(APIView):
-    def get(self,request):
+    def post(self,request):
         lambda_client = boto3.client('lambda',region_name='us-east-1')
         response = lambda_client.invoke(FunctionName='getdeliverys',Payload=json.dumps(request.data))
         return Response(json.loads(response["Payload"].read()),status=status.HTTP_200_OK)
 
 class GetCheckPhotoAPIView(APIView):
-    def get(self,request):
+    def post(self,request):
         sfn_client = boto3.client('stepfunctions',region_name='us-east-1')#Switch according to what you want to use
         
         response = sfn_client.describe_execution(

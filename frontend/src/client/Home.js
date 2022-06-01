@@ -10,8 +10,16 @@ const Home = () => {
   const { data: items, error } = useFetch("api/getitems/");
   const [totalprice, setTotalprice] = useState(0);
   const [success, setSuccess] = useState(null);
-  const [exec_name,setExec_name] = useState(null);
-  const [exec_Arn,setExec_Arn] = useState(null);
+  const [exec_name, setExec_name] = useState(null);
+  const [exec_Arn, setExec_Arn] = useState(null);
+  const [confirmpayment, setConfirmpayment] = useState(null);
+  const [errorpayment, setErrorpayment] = useState(null);
+  const [confirmdelivery, setConfirmdelivery] = useState(null);
+  const [messagedelivery, setMessagedelivery] = useState(null);
+  const [checkfinal,setCheckfinal] = useState(null);
+  const [messagecheckfinal,setMessagecheckfinal] = useState(null);
+
+  let id_interval,id_interval2,id_interval3;
 
   const addtolist = (fooditem) => {
     let existe = false;
@@ -106,6 +114,7 @@ const Home = () => {
           setSuccess("sucess");
           setExec_Arn(data.execArn);
           setExec_name(data.exec_name);
+          setConfirmpayment("letstryit");
         })
         .catch((err) => {
           alert(err.message + " Try again later.");
@@ -130,19 +139,144 @@ const Home = () => {
     setImage(imageSrc);
   }, [webcamRef]);
 
+  const handlepayment = () => {
+
+   id_interval = setInterval(() => {
+      const abortCont = new AbortController();
+      // faço um post aqui da image, dos items e do numero de location tag
+      fetch("api/getpayment/", {
+        method: "POST",
+        signal: abortCont.signal,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          exec_name: exec_name,
+        }),
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw Error("Could not Get this.");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          if (data.statusoforder === "matched") {
+            setConfirmpayment(null);
+            setConfirmdelivery('notyetconfirmed');
+            setMessagedelivery("Pagamento confirmado!\n Aguarde pelo pedido na sua mesa...")
+            clearInterval(id_interval);
+          } else if (data.statusoforder === "nomatched") {
+            setConfirmpayment(null);
+            setErrorpayment("Go to the customer support");
+            clearInterval(id_interval);
+          }
+        })
+        .catch((err) => {
+          alert(err.message + " Try again later.");
+        });
+            // abort the fetch
+      return () => abortCont.abort();
+    }, 5000);
+  };
+
+const handledelivery = () => {
+
+  id_interval2 = setInterval(() => {
+      const abortCont = new AbortController();
+      // faço um post aqui da image, dos items e do numero de location tag
+      fetch("api/getdelivery/", {
+        method: "POST",
+        signal: abortCont.signal,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          exec_name: exec_name,
+        }),
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw Error("Could not Get this.");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          if (data.delivery === true) {
+            setConfirmdelivery(null);
+            setMessagedelivery("Já recebeu o pedido?");
+            setCheckfinal('showbutton');
+            clearInterval(id_interval2);
+          }
+        })
+        .catch((err) => {
+          alert(err.message + " Try again later.");
+        });
+            // abort the fetch
+      return () => abortCont.abort();
+    }, 5000);
+  };
+
+const checkphoto = () => {
+      const abortCont = new AbortController();
+      // faço um post aqui da image, dos items e do numero de location tag
+      fetch("api/checkphoto/", {
+        method: "POST",
+        signal: abortCont.signal,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          execArn: exec_Arn,
+        }),
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw Error("Could not Post this.");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          if (data.status === "SUCCEEDED") {
+            setMessagecheckfinal("Desfrute da comida!!");
+          }
+          else if(data.status === "FAILED")
+          {
+            setMessagecheckfinal("Este pedido não é seu!!");
+          }
+          setConfirmdelivery(null);
+          setMessagedelivery(null);
+          setCheckfinal(null);
+        })
+        .catch((err) => {
+          alert(err.message + " Try again later.");
+        });
+            // abort the fetch
+      return () => abortCont.abort();
+  };
+
   return (
     <div className="Home">
       {success ? (
-        <div>
-          {error && (
+        <div className="pedido d-flex justify-content-center align-items-center">
+          {errorpayment && (
             <div
               style={{ color: "red", fontSize: "1.4rem", fontWeight: "bold" }}
             >
-              {error}
+              <h1>{errorpayment}</h1>
             </div>
           )}
-            <h1>{exec_name}</h1>
-            <h1>{exec_Arn}</h1>
+          <div>
+          {confirmpayment && <h1>A confirmar o pagamento...</h1>}
+          {confirmpayment && handlepayment()}
+          {messagedelivery && <h1>{messagedelivery}</h1>}
+          {confirmdelivery && handledelivery()}
+          {checkfinal && <button className="btn btn-primary" onClick={() => checkphoto()}>Confirm</button>}
+          {messagecheckfinal && <h1>{messagecheckfinal}</h1>}
+          </div>
         </div>
       ) : (
         <div>
