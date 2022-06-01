@@ -4,13 +4,14 @@ import useFetch from "../hooks/useFetch";
 import UserFoodList from "./UserFoodList";
 import { getToken } from "../services/AuthService";
 
-
-
 const Home = () => {
   const [itemordered, setItemordered] = useState([]);
   const [image, setImage] = useState("");
   const { data: items, error } = useFetch("api/getitems/");
   const [totalprice, setTotalprice] = useState(0);
+  const [success, setSuccess] = useState(null);
+  const [exec_name,setExec_name] = useState(null);
+  const [exec_Arn,setExec_Arn] = useState(null);
 
   const addtolist = (fooditem) => {
     let existe = false;
@@ -26,24 +27,22 @@ const Home = () => {
   const removefromlist = (fooditem) => {
     const newItems = itemordered.filter((item) => item.id !== fooditem.id);
     setItemordered(newItems);
-    if(itemordered === [])
-    {
+    if (itemordered === []) {
       setTotalprice(0);
     }
   };
 
-  const handlecalcprice = ((postdata) => {
-    
+  const handlecalcprice = (postdata) => {
     const abortCont = new AbortController();
 
-    fetch('api/calcprice/', {
-      method: 'POST',
+    fetch("api/calcprice/", {
+      method: "POST",
       signal: abortCont.signal,
       headers: {
-        'Accept': "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({postdata})
+      body: JSON.stringify({ postdata }),
     })
       .then((res) => {
         if (!res.ok) {
@@ -66,9 +65,7 @@ const Home = () => {
 
     // abort the fetch
     return () => abortCont.abort();
-
-
-  });
+  };
 
   const handlesubmit = (
     inputnumber,
@@ -83,33 +80,41 @@ const Home = () => {
         method: "POST",
         signal: abortCont.signal,
         headers: {
-          'Accept': "application/json",
+          Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({image:image,items:itemsalreadyadded,locationtag:inputnumber,Request:'makerequest'}),
-      }).then((res) => {
-        if(!res.ok)
-        {
-          throw Error('Could not POST this.')
-        }
-        return res.json();
-      }).then((data) => {
-        console.log(data.status);
-        setItemordered([]);
-        setInputNumber(0.0);
-        setIsInvalid(false);
-        setImage("");
-        setTotalprice(0.00);
-
-      }).catch((err) => {
-         alert(err.message + ' Try again later.');
-      }); 
+        body: JSON.stringify({
+          image: image,
+          items: itemsalreadyadded,
+          locationtag: inputnumber,
+          Request: "makerequest",
+        }),
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw Error("Could not POST this.");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          //console.log(data.status);
+          setItemordered([]);
+          setInputNumber(0.0);
+          setIsInvalid(false);
+          setImage("");
+          setTotalprice(0.0);
+          setSuccess("sucess");
+          setExec_Arn(data.execArn);
+          setExec_name(data.exec_name);
+        })
+        .catch((err) => {
+          alert(err.message + " Try again later.");
+        });
       return () => abortCont.abort();
     } else {
       setIsInvalid(true);
     }
-     // abort the fetch
-    
+    // abort the fetch
   };
 
   const videoConstraints = {
@@ -127,21 +132,43 @@ const Home = () => {
 
   return (
     <div className="Home">
-      <h1>Menu</h1>
-      {error && <div style={{color:"red",fontSize:"1.4rem",fontWeight:"bold"}}>{error}</div>}
-      {items && <FoodList fooditems={items} addtolist={addtolist} />}
-      <hr></hr>
-      <UserFoodList
-        itemsalreadyadded={itemordered}
-        removefromlist={removefromlist}
-        handlesubmit={handlesubmit}
-        handlecalcprice={handlecalcprice}
-        webcamRef={webcamRef}
-        capture={capture}
-        videoConstraints={videoConstraints}
-        image={image}
-        totalprice={totalprice}
-      />
+      {success ? (
+        <div>
+          {error && (
+            <div
+              style={{ color: "red", fontSize: "1.4rem", fontWeight: "bold" }}
+            >
+              {error}
+            </div>
+          )}
+            <h1>{exec_name}</h1>
+            <h1>{exec_Arn}</h1>
+        </div>
+      ) : (
+        <div>
+          <h1>Menu</h1>
+          {error && (
+            <div
+              style={{ color: "red", fontSize: "1.4rem", fontWeight: "bold" }}
+            >
+              {error}
+            </div>
+          )}
+          {items && <FoodList fooditems={items} addtolist={addtolist} />}
+          <hr></hr>
+          <UserFoodList
+            itemsalreadyadded={itemordered}
+            removefromlist={removefromlist}
+            handlesubmit={handlesubmit}
+            handlecalcprice={handlecalcprice}
+            webcamRef={webcamRef}
+            capture={capture}
+            videoConstraints={videoConstraints}
+            image={image}
+            totalprice={totalprice}
+          />{" "}
+        </div>
+      )}
     </div>
   );
 };
