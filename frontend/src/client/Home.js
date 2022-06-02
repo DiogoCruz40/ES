@@ -47,7 +47,7 @@ const Home = () => {
       method: "POST",
       signal: abortCont.signal,
       headers: {
-        Accept: "application/json",
+        "Accept": "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ postdata }),
@@ -88,7 +88,7 @@ const Home = () => {
         method: "POST",
         signal: abortCont.signal,
         headers: {
-          Accept: "application/json",
+          "Accept": "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -148,7 +148,7 @@ const Home = () => {
         method: "POST",
         signal: abortCont.signal,
         headers: {
-          Accept: "application/json",
+          "Accept": "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -190,7 +190,7 @@ const handledelivery = () => {
         method: "POST",
         signal: abortCont.signal,
         headers: {
-          Accept: "application/json",
+          "Accept": "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -226,7 +226,7 @@ const checkphoto = () => {
         method: "POST",
         signal: abortCont.signal,
         headers: {
-          Accept: "application/json",
+         "Accept": "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify({

@@ -44,8 +44,8 @@ const Kitchen = () => {
       method: "PUT",
       signal: abortCont.signal,
       headers: {
-        Authorization: getToken(),
-        Accept: "application/json",
+        "Authorization": getToken(),
+        "Accept": "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
